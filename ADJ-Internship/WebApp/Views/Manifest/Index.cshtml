@@ -147,18 +147,32 @@
                 }
 
               </td>
-              <td>
-                @Html.DropDownListFor(model => model.Items[i].Size,
-             new SelectList(ViewBag.Size), Model.Items[i].Size, new { @class = "uk-input" })
-              </td>
-              <td>
-                @Html.DropDownListFor(model => model.Items[i].Loading,
-           new SelectList(ViewBag.Loading), Model.Items[i].Loading, new { @class = "uk-input" })
-              </td>
-              <td>
-                @Html.DropDownListFor(model => model.Items[i].PackType,
-           new SelectList(ViewBag.PackType), Model.Items[i].PackType, new { @class = "uk-input" })
-              </td>
+              @{
+                if (Model.Items[i].Id == 0)
+                {
+                  <td>
+                    <select asp-for="Items[i].Size" asp-items="new SelectList(ViewBag.Size)" class="uk-input filters" id="size"></select>
+                  </td>
+                  <td>
+                    <select asp-for="Items[i].Loading" asp-items="new SelectList(ViewBag.Loading)" class="uk-input filters" id="loading"></select>
+                  </td>
+                  <td>
+                    <select asp-for="Items[i].PackType" asp-items="new SelectList(ViewBag.PackType)" class="uk-input filters" id="packtype"></select>
+                  </td>
+                }
+                else
+                {
+                  <td>
+                    @Model.Items[i].Size
+                  </td>
+                  <td>
+                    @Model.Items[i].Loading
+                  </td>
+                  <td>
+                    @Model.Items[i].PackType
+                  </td>
+                }
+              }
             </tr>
           </tbody>
         </table>

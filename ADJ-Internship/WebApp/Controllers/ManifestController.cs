@@ -47,13 +47,14 @@ namespace WebApp.Controllers
     public async Task<ActionResult> CreateOrUpdate(PagedListResult<ShipmentManifestsDtos> shipmentManifestDtos)
     {
       ViewBag.modalResult = null;
+
       if (ModelState.IsValid)
       {
         foreach (var manifest in shipmentManifestDtos.Items)
         {
           if (manifest.selectedContainer == true || manifest.Manifests.Where(p => p.selectedItem == true).Count() > 0)
           {
-            await _manifestService.CreateOrUpdateContainerAsync(manifest);
+           await _manifestService.CreateOrUpdateContainerAsync(manifest);
             ViewBag.modalResult = "success";
           }
         }
@@ -75,7 +76,10 @@ namespace WebApp.Controllers
       ViewBag.Carriers = searchItem.Carriers;
       ViewBag.Dest = searchItem.DestinationPort;
       ViewBag.Status = searchItem.Status;
-      PagedListResult<ShipmentManifestsDtos> pagedListResult = await _manifestService.ListManifestDtoAsync();
+      string DestinationPort = searchItem.DestinationPort.First();
+      string OriginPort = searchItem.OriginPorts.First();
+      string Carrier = searchItem.Carriers.First();
+      PagedListResult<ShipmentManifestsDtos> pagedListResult = await _manifestService.ListManifestDtoAsync(1,2,DestinationPort,OriginPort,Carrier);
       return View("Index", pagedListResult);
     }
   }
